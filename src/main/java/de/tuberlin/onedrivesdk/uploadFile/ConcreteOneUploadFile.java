@@ -58,6 +58,7 @@ public class ConcreteOneUploadFile implements OneUploadFile {
 			throw new NullPointerException("FileToUpload was null");
 		}
 		this.uploadSession = api.createUploadSession(parentFolder, fileToUpload.getName());
+		randFile.close();
 		this.uploadUrl = this.uploadSession.getUploadURL();
     }
 
