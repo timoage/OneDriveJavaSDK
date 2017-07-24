@@ -59,6 +59,7 @@ public class ConcreteOneUploadFile implements OneUploadFile {
 		}
 		this.uploadSession = api.createUploadSession(parentFolder, fileToUpload.getName());
 		this.uploadUrl = this.uploadSession.getUploadURL();
+		
     }
 
     @Override
@@ -141,6 +142,7 @@ public class ConcreteOneUploadFile implements OneUploadFile {
                 }
 			}
 			shouldRun.unlock();
+			randFile.close();
 		}
 
         logger.info("finished upload");
