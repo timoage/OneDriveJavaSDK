@@ -142,9 +142,9 @@ public class ConcreteOneUploadFile implements OneUploadFile {
                 }
 			}
 			shouldRun.unlock();
-			randFile.close();
+			
 		}
-
+		randFile.close();
         logger.info("finished upload");
 
 		finishedFile.setApi(api);
