@@ -49,13 +49,23 @@ public class ConsoleClient {
     private Map<String, OneFile> currentFolderFiles = Maps.newHashMap();
     private Map<String, OneFolder> currentFolderFolders = Maps.newHashMap();
     private Map<String, OneItem> currentFolderItems = Maps.newHashMap();
+    private Properties prop = new Properties();
 
     public ConsoleClient() throws IOException, InterruptedException,
             OneDriveException {
 
         api = OneDriveFactory.createOneDriveSDK(OneDriveCredentials.getClientId(), OneDriveCredentials.getClientSecret(), "http://localhost"
                 , OneDriveScope.OFFLINE_ACCESS);
-
+        prop.load(new FileInputStream("credentials.properties"));
+		if (!prop.getProperty("refreshToken").isEmpty()) {
+			try {
+				api.authenticateWithRefreshToken(prop.getProperty("refreshToken"));
+			} catch (Exception e) {
+				prop.setProperty("refreshToken", "");
+				prop.store(new FileOutputStream("credentials.properties"), null);
+			}
+			
+		}else{
         openWebpage(api.getAuthenticationURL());
 
         //intercepts redirect end automatically enters the oAuth Code
@@ -70,6 +80,8 @@ public class ConsoleClient {
                     Matcher m = Pattern.compile("\\?code=([^ ]+) HTTP").matcher(line);
                     if (m.find()) {
                         api.authenticate(m.group(1));
+                        prop.setProperty("refreshToken", api.getRefreshToken());
+						prop.store(new FileOutputStream("credentials.properties"), null);
                         OutputStream os = s.getOutputStream();
                         os.write(new String(html_response).getBytes());
                         os.close();
@@ -83,7 +95,7 @@ public class ConsoleClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+		}
         currentFolder = api.getRootFolder();
 
 
@@ -113,7 +125,7 @@ public class ConsoleClient {
 
     }
 
-    private static String printCurrentFolder() {
+    public String printCurrentFolder() {
         if (currentFolder != null) {
             return currentFolder.toString();
         } else {

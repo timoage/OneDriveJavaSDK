@@ -58,8 +58,8 @@ public class ConcreteOneUploadFile implements OneUploadFile {
 			throw new NullPointerException("FileToUpload was null");
 		}
 		this.uploadSession = api.createUploadSession(parentFolder, fileToUpload.getName());
-		randFile.close();
 		this.uploadUrl = this.uploadSession.getUploadURL();
+		
     }
 
     @Override
@@ -142,6 +142,7 @@ public class ConcreteOneUploadFile implements OneUploadFile {
                 }
 			}
 			shouldRun.unlock();
+			randFile.close();
 		}
 
         logger.info("finished upload");
