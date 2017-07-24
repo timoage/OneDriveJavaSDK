@@ -32,7 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Example Client for testing the OneDrive SDK
+ * Example Client for testing the OneDrive SDK 
  */
 public class ConsoleClient {
     private static OneFolder currentFolder;
