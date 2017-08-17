@@ -50,6 +50,7 @@ public class ConsoleClient {
     private Map<String, OneFolder> currentFolderFolders = Maps.newHashMap();
     private Map<String, OneItem> currentFolderItems = Maps.newHashMap();
     private Properties prop = new Properties();
+    public ArrayList<String> all = new ArrayList<String>();
 
     public ConsoleClient() throws IOException, InterruptedException,
             OneDriveException {
@@ -172,10 +173,11 @@ public class ConsoleClient {
     }
 
     @Command(name = "list Directories", abbrev = "ls-d")
-    public void listSubFolders() throws IOException, OneDriveException {
+    public ArrayList<String> listSubFolders() throws IOException, OneDriveException {
         System.out.println("Listing sub Folders");
         this.currentFolderFolders = convertToMap(currentFolder.getChildFolder(), OneFolder.class);
         printItemList(currentFolderFolders);
+        return all;
     }
 
     @Command(name = "list Files", abbrev = "ls-f")
@@ -259,8 +261,10 @@ public class ConsoleClient {
     private void printItemList(Map<String, ?> map) {
         List<String> itemKeys = new ArrayList<>(map.keySet());
         Collections.sort(itemKeys);
+        all.clear();
         for (String key : itemKeys) {
             System.out.println(String.format("Item %s = %s", key, map.get(key)));
+            all.add(String.format("Item %s = %s", key, map.get(key)));
         }
     }
 }
