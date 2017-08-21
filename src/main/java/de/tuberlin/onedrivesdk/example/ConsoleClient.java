@@ -209,7 +209,7 @@ public class ConsoleClient {
         if (this.currentFolderFiles.containsKey(index))
             item = (OneItem) this.currentFolderFiles.get(index);
 
-        if (this.currentFolderFolders.containsKey(index))
+        else if (this.currentFolderFolders.containsKey(index))
             item = (OneItem) this.currentFolderFolders.get(index);
 
         if (item != null) {
