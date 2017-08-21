@@ -181,10 +181,11 @@ public class ConsoleClient {
     }
 
     @Command(name = "list Files", abbrev = "ls-f")
-    public void listSubFiles() throws IOException, OneDriveException {
+    public ArrayList<String> listSubFiles() throws IOException, OneDriveException {
         System.out.println("Listing sub files");
         this.currentFolderFiles = convertToMap(currentFolder.getChildFiles(), OneFile.class);
         printItemList(currentFolderFiles);
+        return all;
     }
 
     @Command
